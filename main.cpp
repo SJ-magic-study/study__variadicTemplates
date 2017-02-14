@@ -15,11 +15,21 @@
 
 /******************************
 [C++11 ~] variadic templates
+
+when zero arguments, compiler output warning message.
+	"Format string is not a string literal."
+	
+So, make a overloaded function.
 ******************************/
 template <typename ... Args>
 void my_printf(const char *format, Args const & ... args)
 {
 	printf(format, args ...); // int printf(const char *format, ...);
+}
+void my_printf(const char *format)
+{
+	printf("%s", format);
+	// printf(format); // warning : "Format string is not a string literal."
 }
 
 /******************************
@@ -29,6 +39,10 @@ template <typename ... Args>
 void my_fprintf(FILE* fp, const char *format, Args const & ... args)
 {
 	fprintf(fp, format, args ...);
+}
+void my_fprintf(FILE* fp, const char *format)
+{
+	fprintf(fp, "%s", format);
 }
 
 /******************************
@@ -43,6 +57,11 @@ int main()
 	
 	my_printf("printf test : %d, %d\n", a0, a1);
 	my_fprintf(fp, "fprintf test : %d, %d\n", a0, a1);
+	
+	my_printf("printf\n");
+	my_fprintf(fp, "fprintf test\n");
+
+
 	
 	fclose(fp);
 	
